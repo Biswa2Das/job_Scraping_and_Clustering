@@ -3,4 +3,3 @@ pandas
 beautifulsoup4
 requests
 scikit-learn
-joblib
