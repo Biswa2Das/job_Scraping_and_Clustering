@@ -67,9 +67,12 @@ def scrape_karkidi_jobs(keyword="data science", pages=2):
     return df
 
 # 2. Training / Loading
+def comma_tokenizer(text):
+    return text.split(',')
+
 def prepare_and_cluster(df, n_clusters=5):
     df['Cleaned_Skills'] = df['Skills'].fillna("").apply(lambda x: ','.join([s.strip().lower() for s in x.split(',')]))
-    vectorizer = TfidfVectorizer(tokenizer=lambda x: x.split(','), lowercase=True, stop_words='english')
+    vectorizer = TfidfVectorizer(tokenizer=comma_tokenizer, lowercase=True, stop_words='english')
     X = vectorizer.fit_transform(df['Cleaned_Skills'])
 
     kmeans = KMeans(n_clusters=n_clusters, random_state=42, n_init='auto')
@@ -78,6 +81,7 @@ def prepare_and_cluster(df, n_clusters=5):
     joblib.dump(kmeans, MODEL_PATH)
     joblib.dump(vectorizer, VECTORIZER_PATH)
     return df
+
 
 def load_model():
     if os.path.exists(MODEL_PATH) and os.path.exists(VECTORIZER_PATH):
