@@ -1,0 +1,9 @@
+scikit-learn
+pandas
+numpy
+schedule
+dotenv
+Flask
+beautifulsoup4
+requests
+
